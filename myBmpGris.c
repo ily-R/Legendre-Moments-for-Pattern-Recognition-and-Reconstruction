@@ -63,7 +63,7 @@ void createDibHeader( BmpImg* bmpImg ) {
     uInt2Char( 0, bmpImg->dibHeader, 36 );      // Important colors: 0 means all colors are important
 }
 
-/** Methode d'initialisation d'une image Bmp
+/** Methode d'initialisation d'une image Bmp // Important
   * Met toutes les tailles a 0 et tous les pointeurs a NULL
   * @return une image initialisee
   */
