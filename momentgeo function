@@ -1,0 +1,14 @@
+
+float momentgeo(BmpImg bmpImg, int p, int q){ //pas encore testé //structure de l'image en entrée ainsi que les coeff p et q
+
+    unsigned char** image = bmpImg.img;
+    int x, y; float moment;
+
+    for (x = 0; x < BmpImg.dimX; x++)
+        for (y = 0; y < BmpImg.dimY; y++)
+            if (image[x][y] != 0) //pour tout charactère différent de zéro, il faut le transformer en 1
+                image[x][y] = 1;
+            moment += pow(x, p)*pow(y, q)*image[x][y]; //formule
+
+    return moment;
+}
