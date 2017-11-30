@@ -9,14 +9,14 @@ struct BmpImg_s {
 	unsigned char** img;	// Image en niveaux de gris
 	unsigned int dimX;		// Dimension en x (hauteur)
 	unsigned int dimY;		// Dimension en y (largeur)
-	
+
 	char* nomImg;				// Nom de l'image
 	unsigned int fileSize;		// Taille du fichier en octet
 	unsigned int headerSize;	// Taille de l'header en octet
     unsigned int bmpSize;		// Taille de l'header BMP en octet
 	unsigned int dibSize;		// Taille de l'header DIB en octet
 	unsigned int imgSize;		// Taille de l'image en octet
-	
+
 	unsigned char* dibHeader;	// La taille du DIB varie selon que l'on stocke ou non la colormap
 	unsigned char bmpHeader[14];	// Bmp Header fait toujours 14 octets (soit 14 char)
 };
@@ -63,7 +63,7 @@ BmpImg readBmpImage( char* imgName );
 /** Methode auxiliaire de lecture d'une image bitmap
   * Sert a lire le header (14 premiers octets) et le dib header
   * @param fImg le fichier image (deja ouvert)
-  * @param bmpImg pointeur vers une structure d'image. Apres appel a la fonction, 
+  * @param bmpImg pointeur vers une structure d'image. Apres appel a la fonction,
   * 	il contiendra les champs:
   * 		fileSize, headerSize, dibSize et imgSize
   * 		bmpHeader et dibHeader
@@ -74,7 +74,7 @@ void readHeader( FILE* fImg, BmpImg* bmpImg );
 /** Methode auxiliaire de lecture d'une image bitmap
   * Sert a lire les 3 plans couleurs (en codage direct)
   * @param fImg le fichier image (deja ouvert)
-  * @param bmpImg pointeur vers une structure d'image. Apres appel a la fonction, 
+  * @param bmpImg pointeur vers une structure d'image. Apres appel a la fonction,
   * 	il contiendra les champs imgR, imgG et imgB
   */
 void readImg( FILE* fImg, BmpImg* bmpImg );
