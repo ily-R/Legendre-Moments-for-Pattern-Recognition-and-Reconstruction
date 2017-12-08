@@ -22,12 +22,16 @@ double momentgeo(BmpImg bmpImg, int p, int q){
     dimX = bmpImg.dimX;
     dimY = bmpImg.dimY;
     
+    double ** VdmX = Vandermonde(dimX, p, 0); //pas centré donc xb = 0
+    double ** VdmY = Vandermonde(dimY, q, 0); //pas centré donc yb = 0
+    
+    
     for (x = 0; x < dimX; x++)
     {
         for (y = 0; y < dimY; y++)
         {
             if (image[x][y] != 0) //pour tout charactère différent de zéro, il faut le transformer en 1                     
-                moment += pow(x, p)*pow(y, q); //no need to multiply by image[x][y] as it's a 1         
+                moment += VdmX[x][p]*VdmY[y][q]; //no need to multiply by image[x][y] as it's a 1         
         }
     }
     
@@ -35,7 +39,7 @@ double momentgeo(BmpImg bmpImg, int p, int q){
 }
 
 //Moments Centrés et normés
-double Mcentre(BmpImg bmpImg, int p, int q, double ohm, double** VdmX, double** VdmY){
+double Mcentre(BmpImg bmpImg, int p, int q, double ohm, double xb, double yb){
     
     int dimX, dimY;
 
@@ -45,8 +49,8 @@ double Mcentre(BmpImg bmpImg, int p, int q, double ohm, double** VdmX, double** 
     dimX = bmpImg.dimX;
     dimY = bmpImg.dimY;
     
-    // VandermondeX(dimX, p, xb);
-    //VandermondeY(dimY, q, yb);
+    double ** VdmX = Vandermonde(dimX, p, xb); //pas centré donc xb = 0
+    double ** VdmY = Vandermonde(dimY, q, yb); //pas centré donc yb = 0
     
     for(x=0; x<dimX; x++)
     {
