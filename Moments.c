@@ -49,8 +49,8 @@ double Mcentre(BmpImg bmpImg, int p, int q, double ohm, double xb, double yb){
     dimX = bmpImg.dimX;
     dimY = bmpImg.dimY;
     
-    double ** VdmX = Vandermonde(dimX, p, xb); //pas centré donc xb = 0
-    double ** VdmY = Vandermonde(dimY, q, yb); //pas centré donc yb = 0
+    double ** VdmX = Vandermonde(dimX, p, xb); 
+    double ** VdmY = Vandermonde(dimY, q, yb); 
     
     for(x=0; x<dimX; x++)
     {
