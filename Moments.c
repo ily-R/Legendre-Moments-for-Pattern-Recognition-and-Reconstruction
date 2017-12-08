@@ -17,16 +17,19 @@ double momentgeo(BmpImg bmpImg, int p, int q){
     
     unsigned char** image = bmpImg.img;
     int dimX, dimY; int x, y;
-    double moment;
+    double moment=0.0;
     
     dimX = bmpImg.dimX;
     dimY = bmpImg.dimY;
     
     for (x = 0; x < dimX; x++)
+    {
         for (y = 0; y < dimY; y++)
-            if (image[x][y] != 0) //pour tout charactère différent de zéro, il faut le transformer en 1
-                image[x][y] = 1;
-    moment += pow(x, p)*pow(y, q)*image[x][y]; //formule
+        {
+            if (image[x][y] != 0) //pour tout charactère différent de zéro, il faut le transformer en 1                     
+                moment += pow(x, p)*pow(y, q); //no need to multiply by image[x][y] as it's a 1         
+        }
+    }
     
     return moment;
 }
@@ -37,7 +40,7 @@ double Mcentre(BmpImg bmpImg, int p, int q, double ohm, double** VdmX, double** 
     int dimX, dimY;
 
     unsigned char** image = bmpImg.img;
-    double som=0;
+    double som=0.0;
     int x, y;
     dimX = bmpImg.dimX;
     dimY = bmpImg.dimY;
@@ -49,25 +52,26 @@ double Mcentre(BmpImg bmpImg, int p, int q, double ohm, double** VdmX, double** 
     {
         for(y=0; y<dimY; y++)
         {
-            som += VdmX[x][p]*VdmY[y][q]/(float)(pow(ohm,(float)(p+q+2)/2))*image[x][y];
-            printf("%fl\n",som);
+            if(image[x][y]!=0)
+                som += VdmX[x][p]*VdmY[y][q]/(float)(pow(ohm,(float)(p+q+2)/2));//no need to multiply by image[x][y] as it's a 1     
+            
         }
     }
     return som;
 }
 
 //Calcul de Cpq
-float cpq(int p,int q){
-    float c;
-    return c = (2*p+1)*(2*q+1)/4;
+float Cpq(int p,int q){
+    return (2*p+1)*(2*q+1)/4; 
 }
 
 
 //Moments de Legendre
-double lambda(BmpImg bmpImg, int p, int q, double xb, double yb, float c, float**a){
+double lambda(BmpImg bmpImg, int p, int q, double xb, double yb, float**a){
     int i,j;
     double som, nabla;
     double lambda=0;
+    float Cpq= Cpq(p,q);
     //float** x,y;
     //double Mc;
     //x=VandermondeX(dimX,p,xb);
@@ -82,7 +86,7 @@ double lambda(BmpImg bmpImg, int p, int q, double xb, double yb, float c, float*
             som += (a[p][i])*(a[q][j])*nabla;
         }
     }
-    lambda=c*som;
+    lambda=Cpq*som;
     return lambda;
 }
 
