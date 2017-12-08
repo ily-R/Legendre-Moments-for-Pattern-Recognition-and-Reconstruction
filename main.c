@@ -10,9 +10,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define N 50
-
-
+#define NLeg 50
+#define p
+#define q
 
 
 int main(int argc, const char * argv[]) {
@@ -22,6 +22,7 @@ int main(int argc, const char * argv[]) {
     double xb = momentgeo(BmpImg, 1, 0)/ohm;
     double yb = momentgeo(BmpImg, 0, 1)/ohm;
     
+        
     double Nabla = Mcentre(BmpImg bmpImg, int p, int q, double** VdmX, double** VdmY);
     //Calcul moments centrÈs normÈs
     
