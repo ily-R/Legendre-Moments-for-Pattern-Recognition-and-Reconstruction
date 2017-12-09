@@ -1,3 +1,10 @@
+//
+//  VandMoment.c
+//  Projet_3E103
+//
+//  Created by ilyas Aroui on 09/12/2017.
+//  Copyright © 2017 Team_Projet. All rights reserved.
+//
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
