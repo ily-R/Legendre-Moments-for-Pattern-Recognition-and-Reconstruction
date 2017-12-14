@@ -257,3 +257,15 @@ double** imageReconstruite(BmpImg bmpimg,double** lambda, double** a)
         image[x][y]=ImageMomLeg(x,y,lambda,a);
     }
 }
+double distanceEuclidienne(double** lambda1, double** lambda2)
+{
+    int p,q;
+    double somme=0;
+    for(p=0;p<=N;p++)
+        for(q=0;q<=N-p;q++)
+    {
+        somme+=(lambda1[p][q]-lambda2[p][q])*(lambda1[p][q]-lambda2[p][q])
+    }
+
+   return sqrt(somme);
+}
