@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <math.h>
 
+#define N 10
+
 // 1.A
 
 //Moments Géométriques
