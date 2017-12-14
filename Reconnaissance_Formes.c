@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#define N 10
 // 1.A
 
 double** creerVM(int N)
@@ -225,28 +226,34 @@ double polyLeg(int x, int n, double** a){
     return sum;
 }
 //1.D
-
-double* creerVectPolyLeg(int n)
-{
-    double* vect= malloc(n+1,sizeof(double));
-    for(i=0;i<n+1;i++)
-    {
-        vect[i]=polyLeg(int x, int n, double** a);
-    }
-    return vect;
-}
-
 //Reconstruction de l'image à partir des moments de Legendre
-double** ImageMomLeg(int x, int y, double** a)
+double ImageMomLeg(int x, int y,double** lambda,double** a)
 {
-
     int p, q;
-    double sum = 0;
+    double pixel = 0;
     for (p=0; p <= N; p++)
         for (q = 0; q <= N - p; q++)
 
-            sum += lambda()*polyLeg(x)*polyLeg(y);
+            pixel += lambda[p][q]*polyLeg(x,n,a)*polyLeg(y,n,a);
 
 
-    return sum;
+    return pixel;
+}
+
+double** imageReconstruite(BmpImg bmpimg,double** lambda, double** a)
+{
+    int i,x,y;
+    int dimX=bmpimg.dimX;
+    int dimY=bmpimg.dimY;
+    double** image;
+    image= malloc(dimX,sizeof(double*));
+    for(i=0;i<dimX;i++)
+    {
+        image[i]=calloc(dimY*sizeof(double))
+    }
+    for(x=0;x<dimX,x++)
+        for(y=0;y<dimY;y++)
+    {
+        image[x][y]=ImageMomLeg(x,y,lambda,a);
+    }
 }
