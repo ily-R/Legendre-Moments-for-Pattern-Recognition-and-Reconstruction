@@ -24,11 +24,8 @@ double momentgeo(BmpImg bmpImg, int p, int q);
 //Moments Centrés et normés
 double Mcentre(BmpImg bmpImg, int p, int q, double ohm, double** VdmX, double** VdmY);
 
-//Création de la matrice Vandermonde pour les puissances de x
-double** VandermondeX(int dimX, int p, float xb);
-
-//Création de la matrice Vandermonde pour les puissances de y
-double** VandermondeY(int dimY, int q, float yb);
+//Création de la matrice Vandermonde pour les puissances d
+double** Vandermonde(int dim, int p, float xmoy);
 
 //Destruction des matrices de Vandermonde
 void DetruireV(float** V, int dim);
