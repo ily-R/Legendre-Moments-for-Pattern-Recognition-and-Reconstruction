@@ -2,7 +2,7 @@
 
 // 1.A
 //free la Matrix
-void freeVM(double** VM)
+void freeVM(int N, double** VM)
 {
     int j;
     // Liberation
@@ -16,22 +16,23 @@ void freeVM(double** VM)
 
 double** Vandermonde(int dim, int ordre, double xmoy){
 
-  int j;
-  int x;
-  double** Vdm;
+    int j;
+    int x;
+    double** Vdm;
 
-  Vdm = malloc(dim * sizeof(double*));
+    Vdm = malloc(dim * sizeof(double*));
+    
     for( j = 0 ; j < dim ; j++){
       Vdm[j] = calloc(ordre+1,sizeof(double));
     }
 
     if(Vdm == NULL){printf("Erreur allocation");}
 
-  for( x = 0 ; x < dim ; x++ ){
-    for( j = 0 ; j <= ordre ; j++){
-      Vdm[x][j] = pow((x-xmoy),j);
+    for( x = 0 ; x < dim ; x++ ){
+        for( j = 0 ; j <= ordre ; j++){
+            Vdm[x][j] = pow((x-xmoy),j);
+        }
     }
-  }
   return Vdm;
 }
 
@@ -49,10 +50,9 @@ double Mgeo(BmpImg bmpImg, int p, int q)
     double ** VdmX = Vandermonde(dimX, p, 0); //pas centré donc xb = 0
     double ** VdmY = Vandermonde(dimY, q, 0); //pas centré donc yb = 0
 
-    for (x = 0; x < dimX; x++)
-    {
-        for (y = 0; y < dimY; y++)
-        {
+    for (x = 0; x < dimX; x++){
+        for (y = 0; y < dimY; y++){
+            
             if (image[x][y] != 0) //pour tout charactère différent de zéro, il faut le transformer en 1
                 moment += VdmX[x][p]*VdmY[y][q]; //no need to multiply by image[x][y] as it's a 1
         }
@@ -81,10 +81,9 @@ double Mcentre(BmpImg bmpImg, int p, int q){
     double ** VdmX = Vandermonde(dimX, p, xb);
     double ** VdmY = Vandermonde(dimY, q, yb);
 
-    for(x=0; x<dimX; x++)
-    {
-        for(y=0; y<dimY; y++)
-        {
+    for(x=0; x<dimX; x++){
+        for(y=0; y<dimY; y++){
+            
             if(image[x][y]!=0)
                 somme += VdmX[x][p]*VdmY[y][q];//no need to multiply by image[x][y] as it's a 1
 
@@ -95,7 +94,7 @@ double Mcentre(BmpImg bmpImg, int p, int q){
 
 // Creer matrice Vandermonde de moments centre
 
-double** creerMCentree(BmpImg bmpImg,int N)
+double** creerMCentree(BmpImg bmpImg, int N)
 {
     double** VM;
     int j;
@@ -104,10 +103,11 @@ double** creerMCentree(BmpImg bmpImg,int N)
         VM[N+1-j] = calloc(j, sizeof(double));
 
     int p,q;
-    for(p=0;p<=N;p++)
-        for(q=0;q<=N-p;q++)
-    {
-        VM[p][q]= Mcentre(bmpImg,p,q);
+    for(p=0;p<=N;p++){
+        for(q=0;q<=N-p;q++){
+    
+            VM[p][q]= Mcentre(bmpImg,p,q);
+        }
     }
     return VM;
 }
@@ -116,10 +116,12 @@ double** creerMCentree(BmpImg bmpImg,int N)
 
 //Calcul de Cpq
 
-double Cpq(int p,int q){
+double Cpq(int p, int q)
+{
     double result=(2*p+1)*(2*q+1)/4;
     return result ;
 }
+
 
 double** creerCpq(int N)
 {
@@ -130,10 +132,11 @@ double** creerCpq(int N)
         VM[N+1-j] = calloc(j, sizeof(double));
 
     int p,q;
-     for(p=0;p<=N;p++)
-        for(q=0;q<=N-p;q++)
-    {
-        VM[p][q]= Cpq(int p,int q);
+    for(p=0;p<=N;p++){
+        for(q=0;q<=N-p;q++){
+            
+            VM[p][q]= Cpq(p, q);
+        }
     }
     return VM;
 }
@@ -153,15 +156,15 @@ double** coeffLeg (int Nleg) {
     double ** coeff; //matrice triangulaire coeff Legendre
 
     // Allocation dynamique
-    coeff = malloc( (NLeg+1) * sizeof(double*) ); // de la colonne for( int i = 0; i < N; i++ )
-    for( int j = 0; j <= NLeg; j++ )
+    coeff = malloc( (Nleg+1) * sizeof(double*) ); // de la colonne for( int i = 0; i < N; i++ )
+    for( int j = 0; j <= Nleg; j++ )
         coeff[j] = calloc( j+1, sizeof(double) ); // Tableau 1D de  → i+1 elements
 
     //Conditions initiales
 
     coeff[0][0] = 1.0; coeff[1][0] = 0.0; coeff[1][1]= 1.0;
 
-    for(j = 2; j<= NLeg; j++){ //Entre la 2e ligne et la Nème ligne
+    for(j = 2; j<= Nleg; j++){ //Entre la 2e ligne et la Nème ligne
 
         for(i=0; i<= n+1; i++){ //Parcours de a entre 0 et n+1
 
@@ -191,20 +194,23 @@ double** coeffLeg (int Nleg) {
     return coeff;
 }
 
+
 //Moments de Legendre
 
 double Mlegendre(int p, int q, double Cpq, double** coeff, double** Mcentre)
 {
     int i,j;
     double result=0;
-    for(i=0;i<p;i++)
-        for(j=0;j<q;j++)
-        result+= coeff[p][i]*coeff[q][j]*Mcentre[i][j];
-
+    for(i=0;i<p;i++){
+        for(j=0;j<q;j++){
+            result+= coeff[p][i]*coeff[q][j]*Mcentre[i][j];
+        }
+    }
     return Cpq*result;
 }
 
-double** creerMlegendre(int N,double** Cpq,double** coeff,double** Mcentre)
+
+double** creerMlegendre(int N, double** Cpq, double** coeff, double** Mcentre)
 {
     double** VM;
     int j;
@@ -213,69 +219,79 @@ double** creerMlegendre(int N,double** Cpq,double** coeff,double** Mcentre)
         VM[N+1-j] = calloc(j, sizeof(double));
 
     int p,q;
-    for(p=0;p<N+1;p++)
-        for(q=0;q<N+1-p;q++)
-    {
-        VM[p][q]= Mlegendre(p,q,Cpq[p][q],coeff,Mcentre);
+    for(p=0;p<N+1;p++){
+        for(q=0;q<N+1-p;q++){
+            
+            VM[p][q]= Mlegendre(p,q,Cpq[p][q],coeff,Mcentre);
+        }
     }
     return VM;
 }
 
 //Construction des polynômes de Legendre
 
-double polyLeg(int x, int n, double** coeff){
-
+double polyLeg(int x, int n, double** coeff)
+{
     int i; double sum = 0;
-    for(i=0; i<=n; i++){
+    for(i=0; i<=n; i++)
         sum += coeff[n][i]*pow(x, i);
-    }
+    
     return sum;
 }
+
 
 //1.D
 //Reconstruction de l'image à partir des moments de Legendre
 
-double ImageMomLeg(int x, int y,double** Mlegendre,double** coeff)
+double ImageMomLeg(int N, int x, int y, double** Mlegendre, double** coeff)
 {
     int p, q;
-    double pixel = 0;
-    for (p=0; p <= N; p++)
-        for (q = 0; q <= N - p; q++)
+    double pixel = 0.0;
+    
+    for (p=0; p <= N; p++){
+        for (q = 0; q <= N-p; q++){
 
-            pixel += Mlegendre[p][q]*polyLeg(x,n,coeff)*polyLeg(y,n,coeff);
-
-
+            pixel += (Mlegendre[p][q])*polyLeg(x,N,coeff)*polyLeg(y,N,coeff);
+        }
+    }
     return pixel;
 }
 
-double** imageReconstruite(BmpImg bmpimg,double** Mlegendre, double** coeff)
+
+double** imageReconstruite(int N, BmpImg bmpimg, double** Mlegendre, double** coeff)
 {
     int i,x,y;
     int dimX=bmpimg.dimX;
     int dimY=bmpimg.dimY;
+    
     double** image;
-    image= malloc(dimX,sizeof(double*));
+    image= malloc(dimX*sizeof(double*));
+    
     for(i=0;i<dimX;i++)
-    {
-        image[i]=calloc(dimY*sizeof(double));
-    }
-    for(x=0;x<dimX,x++)
-        for(y=0;y<dimY;y++)
-    {
-        image[x][y]=ImageMomLeg(x,y,Mlegendre,coeff);
+    
+        image[i]=calloc(dimY, sizeof(double));
+    
+    
+    for(x=0;x<dimX;x++){
+        for(y=0;y<dimY;y++){
+            
+            image[x][y] = ImageMomLeg(N, x, y, Mlegendre, coeff);
+        }
     }
     return image;
 }
 
-double distanceEuclidienne(double** Mlegendre1, double** Mlegendre2)
+
+double distanceEuclidienne(int N, double** Mlegendre1, double** Mlegendre2)
 {
     int p,q;
-    double somme=0;
-    for(p=0;p<=N;p++)
-        for(q=0;q<=N-p;q++)
-    {
-        somme+=(Mlegendre1[p][q]-Mlegendre2[p][q])*(Mlegendre1[p][q]-Mlegendre2[p][q])
+    double somme = 0.0;
+    
+    for(p=0;p<=N;p++){
+        for(q=0;q <= N-p;q++){
+    
+            somme += (Mlegendre1[p][q] - Mlegendre2[p][q]) * (Mlegendre1[p][q] - Mlegendre2[p][q]);
+        }
     }
-
-   return sqrt(somme);
+    return sqrt(somme);
 }
