@@ -49,6 +49,9 @@ double** coeffLeg (int Nleg);
 //Moments de Legendre
 double Mlegendre(int p, int q, double Cpq, double** coeff, double** Mcentre);
 
+//matrice de moments de Legendre
+double** creerMlegendre(int N, double** Cpq, double** coeff, double** Mcentre);
+
 //Construction des polynÙmes de Legendre
 
 double polyLeg(int x, int n, double** coeff);
