@@ -9,23 +9,29 @@
 #ifndef RECONNAISSANCE_FORMES_H_INCLUDED
 #define RECONNAISSANCE_FORMES_H_INCLUDED
 
-#include <stdlib.h>
+#include <stdlib.h>/** Fonction permettant créer la matrice de Vandermonde des puissances de x
+
 #include <stdio.h>
 #include <math.h>
 
 #include "myBmpGris.h"
 
-
-
-
 // 1.A
-//free la Matrix
+
+/** Fonction permettant de libérer une matrice d'ordre N+1  
+* @param ordre : ordre de la matrice  
+* @param VM : matrice à libérer 
+*/
 void freeVM(int ordre, double** VM);//DEBUGGED
 
-//CrÈation de la matrice Vandermonde pour les puissances d
-double** VMpuissance(int dim, int ordre, double xmoy);//DEBUGGED
+/** Fonction permettant créer la matrice de Vandermonde des puissances de x 
+* @param dim : dimension en x de la matrice  
+* @param puissance : dimension en puissances de la matrice
+* @param xmoy : valeur de x centré (utilisé dans les moments centrés)
+*/
+double** VMpuissance(int dim, int puissance, double xmoy);//DEBUGGED
 
-//Moments GÈomÈtriques
+
 double Mgeo(BmpImg bmpImg, int p, int q);//DEBUGGED
 
 //1.B
