@@ -47,7 +47,7 @@ double Mgeo(BmpImg bmpImg, int p, int q); //DEBUGGED
 * @param bmpTmg : structure de l'image dont les moments sont à calculer  
 * @param p : ordre p (tel que p + q ≤ ordre)
 * @param q : ordre q
-* @param beta : coefficient
+* @param beta : coefficient de normalisation
 * @return les moments centrés et normés
 */
 double Mcentre(BmpImg bmpImg, int p, int q, int beta); //DEBUGGED
@@ -55,7 +55,7 @@ double Mcentre(BmpImg bmpImg, int p, int q, int beta); //DEBUGGED
 /** Fonction permettant de créer la matrice de Vandermonde des moments centrés et normés (en fonction de p, q)
 * @param bmpTmg : structure de l'image dont les moments sont à calculer  
 * @param ordre : ordre défini au début du main (tel que p + q ≤ ordre)
-* @param beta : coefficient
+* @param beta : coefficient de normalisation
 * @return la matrice de Vandermonde des moments centrés et normés (triangulaire inversée)
 */
 double** MatMCentree(BmpImg bmpImg, int ordre, int beta); //DEBUGGED
