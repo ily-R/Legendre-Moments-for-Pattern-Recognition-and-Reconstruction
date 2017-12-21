@@ -247,7 +247,7 @@ double** MatMlegendre(int ordre, double** Cpq, double** coeff, double** Mcentre)
 //1.D
 //Reconstruction de l'image à partir des moments de Legendre
 
-double pixelReconstruit(int ordre, int x, int y, double** Mlegendre, double** coeff)
+double pixelReconstruit(int ordre, int x, int y, double** MatMlegendre, double** coeff)
 {
     int p, q;
     double pixel = 0.0;
@@ -255,14 +255,14 @@ double pixelReconstruit(int ordre, int x, int y, double** Mlegendre, double** co
     for (p=0; p <= ordre; p++){
         for (q = 0; q <= ordre-p; q++){
 
-            pixel += (Mlegendre[p][q])*polyLeg(x,ordre,coeff)*polyLeg(y,ordre,coeff);
+            pixel += (MatMlegendre[p][q])*polyLeg(x,ordre,coeff)*polyLeg(y,ordre,coeff);
         }
     }
     return pixel;
 }
 
 
-double** imageReconstruite(int ordre, BmpImg bmpImg, double** Mlegendre, double** coeff)
+double** imageReconstruite(int ordre, BmpImg bmpImg, double** MatMlegendre, double** coeff)
 {
     int i,x,y;
     unsigned int dimX=bmpImg.dimX;
@@ -278,14 +278,14 @@ double** imageReconstruite(int ordre, BmpImg bmpImg, double** Mlegendre, double*
     for(x=0;x<dimX;x++){
         for(y=0;y<dimY;y++){
 
-            image[x][y] = pixelReconstruit(ordre, x, y, Mlegendre, coeff);
+            image[x][y] = pixelReconstruit(ordre, x, y, MatMlegendre, coeff);
         }
     }
     return image;
 }
 
 
-double distanceEuclidienne(int ordre, double** Mlegendre1, double** Mlegendre2)//DEBUGGED
+double distanceEuclidienne(int ordre, double** MatMlegendre1, double** MatMlegendre2)//DEBUGGED
 {
     int p,q;
     double somme = 0.0;
@@ -293,7 +293,7 @@ double distanceEuclidienne(int ordre, double** Mlegendre1, double** Mlegendre2)/
     for(p=0;p<=ordre;p++){
         for(q=0;q <= ordre-p;q++){
 
-            somme += (Mlegendre1[p][q] - Mlegendre2[p][q]) * (Mlegendre1[p][q] - Mlegendre2[p][q]);
+            somme += (MatMlegendre1[p][q] - MatMlegendre2[p][q]) * (MatMlegendre1[p][q] - MatMlegendre2[p][q]);
         }
     }
     return sqrt(somme);
