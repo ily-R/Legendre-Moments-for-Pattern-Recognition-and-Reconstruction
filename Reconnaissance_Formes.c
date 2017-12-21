@@ -12,7 +12,7 @@ void freeVM(int ordre, double** VM) //DEBUGGED
         free( VM );
     }
     VM = NULL;
-    printf("\nImage detruite");
+    printf("Matrice detruite.\n");
 }
 
 
@@ -200,7 +200,7 @@ double** MatCoeffLeg (int ordre) //DEBUGGED
 
 //Construction des polynômes de Legendre
 
-double polyLeg(int x, int n, double** coeff)//DEBUGGED
+double polyLeg(float x, int n, double** coeff)//DEBUGGED
 {
     int i; double sum = 0;
     for(i=0; i<=n; i++)
@@ -247,26 +247,26 @@ double** MatMlegendre(int ordre, double** Cpq, double** coeff, double** Mcentre)
 //1.D
 //Reconstruction de l'image à partir des moments de Legendre
 
-double pixelReconstruit(int ordre, int x, int y, double** MatMlegendre, double** coeff)
+double pixelReconstruit(int ordre, float x, float y, double** Mlegendre, double** coeff)
 {
     int p, q;
     double pixel = 0.0;
 
     for (p=0; p <= ordre; p++){
-        for (q = 0; q <= ordre-p; q++){
+        for (q = 0; q <=p; q++){
 
-            pixel += (MatMlegendre[p][q])*polyLeg(x,ordre,coeff)*polyLeg(y,ordre,coeff);
+            pixel += (Mlegendre[p-q][q])*polyLeg(x,p-q,coeff)*polyLeg(y,q,coeff);
         }
     }
     return pixel;
 }
 
 
-double** imageReconstruite(int ordre, BmpImg bmpImg, double** MatMlegendre, double** coeff)
+double** imageReconstruite(int ordre, BmpImg bmpImg, double** Mlegendre, double** coeff)
 {
     int i,x,y;
-    unsigned int dimX=bmpImg.dimX;
-    unsigned int dimY=bmpImg.dimY;
+    float dimX=bmpImg.dimX;
+    float dimY=bmpImg.dimY;
 
     double** image;
     image= malloc(dimX*sizeof(double*));
@@ -278,14 +278,14 @@ double** imageReconstruite(int ordre, BmpImg bmpImg, double** MatMlegendre, doub
     for(x=0;x<dimX;x++){
         for(y=0;y<dimY;y++){
 
-            image[x][y] = pixelReconstruit(ordre, x, y, MatMlegendre, coeff);
+            image[x][y] = pixelReconstruit(ordre,2*x/dimX -1, 2*y/dimY -1, Mlegendre, coeff);
         }
     }
     return image;
 }
 
 
-double distanceEuclidienne(int ordre, double** MatMlegendre1, double** MatMlegendre2)//DEBUGGED
+double distanceEuclidienne(int ordre, double** Mlegendre1, double** Mlegendre2)//DEBUGGED
 {
     int p,q;
     double somme = 0.0;
@@ -293,8 +293,107 @@ double distanceEuclidienne(int ordre, double** MatMlegendre1, double** MatMlegen
     for(p=0;p<=ordre;p++){
         for(q=0;q <= ordre-p;q++){
 
-            somme += (MatMlegendre1[p][q] - MatMlegendre2[p][q]) * (MatMlegendre1[p][q] - MatMlegendre2[p][q]);
+            somme += (Mlegendre1[p][q] - Mlegendre2[p][q]) * (Mlegendre1[p][q] - Mlegendre2[p][q]);
         }
     }
+    
     return sqrt(somme);
+}
+
+double** lireMlegendre(char* Filename,int ordre)//DEBUGGED
+{
+
+    double** VM;
+    int j,i;
+    VM= malloc((ordre+1) * sizeof(double*) );
+    for( j = ordre+1; j >0; j-- )
+        VM[ordre+1-j] = calloc(j, sizeof(double));
+
+    FILE *fTxt= fopen(Filename,"r");
+    if(fTxt!= NULL)
+     {
+//       while(fscanf(fTxt,"%lf ",&t,&v)==1) // we read 2elements
+      for(i=0;i<=ordre;i++)
+        {
+        for(j=0;j<=ordre-i;j++)
+        {
+           fscanf(fTxt,"%lf ",&VM[i][j]); //printf("%lf ",VM[i][j]);
+        }
+         fscanf(fTxt,"\n"); //printf("\n");
+        }
+     }
+
+     fclose(fTxt);
+     return VM;
+}
+
+void ecrireMlegendre(char* imageName,char* Filename,int ordre,int beta)
+{
+    int i,j;
+    BmpImg bmpImg = readBmpImage(imageName);
+
+    double** Mcentree= MatMCentree(bmpImg,ordre,beta);
+
+    double** Cpq= MatCpq(ordre);
+
+    double** coeff=  MatCoeffLeg(ordre);
+
+    double** MatLegendre= MatMlegendre(ordre,Cpq,coeff,Mcentree);
+
+
+    FILE *fTxt= fopen(Filename,"w");
+    if(fTxt!= NULL)
+     {
+//       while(fscanf(fTxt,"%lf ",&t,&v)==1) // we read 2elements
+      for(i=0;i<=ordre;i++)
+        {
+        for(j=0;j<=ordre-i;j++)
+        {
+           fprintf(fTxt,"%lf ",MatLegendre[i][j]);
+        }
+         fprintf(fTxt,"\n");
+        }
+     }
+
+     fclose(fTxt);
+
+    freeVM(ordre,Mcentree);
+    freeVM(ordre,Cpq);
+    freeVM(ordre,coeff);
+    freeVM(ordre,MatLegendre);
+    freeBmpImg(&bmpImg);
+}
+
+void comparaisonImages(char* imageName,int ordre,double***a,int beta,int s)
+{
+    int i,j,flag=0;
+    double temp;
+    BmpImg bmpImg = readBmpImage(imageName);
+
+    double** Mcentree= MatMCentree(bmpImg,ordre,beta);
+
+    double** Cpq= MatCpq(ordre);
+
+    double** coeff=  MatCoeffLeg(ordre);
+
+    double** MatLegendre= MatMlegendre(ordre,Cpq,coeff,Mcentree);
+
+    double min =  distanceEuclidienne(ordre,MatLegendre, a[0]);
+
+    for(i=1;i<s;i++)
+        
+    {
+        temp = distanceEuclidienne(ordre,MatLegendre, a[i]);
+    
+        if(temp<min)
+        {
+            
+           min=temp;
+           flag=i;
+        }
+
+    }
+    printf("\n%d\n",flag);
+
+
 }
