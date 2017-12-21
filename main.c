@@ -3,46 +3,47 @@
 
 #include "myBmpGris.h"
 #include "Reconnaissance_Formes.h"
-
 #define ordre 45
+#define size 8
 int main()
 {
+
+
+//ecrireMlegendre("..\\lady.bmp","..\\lady.txt",ordre,2);
+//ecrireMlegendre("..\\barre.bmp","..\\barre.txt",ordre,2);
+//ecrireMlegendre("..\\carre.bmp","..\\carre.txt",ordre,1);
+//ecrireMlegendre("..\\dessin2.bmp","..\\dessin2.txt",ordre,1);
+//ecrireMlegendre("..\\dessin3.bmp","..\\dessin3.txt",ordre,1);
+//ecrireMlegendre("..\\snow2.bmp","..\\snow2.txt",ordre,2);
+//ecrireMlegendre("..\\stop.bmp","..\\stop.txt",ordre,1);
+//ecrireMlegendre("..\\cercle.bmp","..\\cercle.txt",ordre,1);
+
     int i,j;
-    BmpImg bmpImg = readBmpImage("lady.bmp");
-    double** Mcentree= MatMCentree(bmpImg,ordre,2);
+    double *** a= (double ***)malloc(size*sizeof(double**));
 
-    double** Cpq= MatCpq(ordre);
+        for (i = 0; i< size; i++) {
 
-    double** coeff=  MatCoeffLeg(ordre);
-
-    double** MatLegendre= MatMlegendre(ordre,Cpq,coeff,Mcentree);
-
-    //Calcul de la matrice des moments de Legendre (vérifié et comparé avec le fichier de Dietenbeck)
-
-    //Reconstruction de l'image à partir des moments (à ne pas faire parce que le temps de compilation est énorme
-    //                                                et les résultats ne donnent rien).
-
-//    double** image= imageReconstruite(ordre,bmpImg,MatLegendre,coeff);
-
-    //Affichage de la matrice des moments de Legendre, ou de n'importe laquelle en remplacant par le nom correspondant
-
-    for(i=0;i<=ordre;i++)
-    {
-        for(j=0;j<=ordre-i;j++)
-        {
-            printf("%lf ",MatLegendre[i][j]);
+        a[i]= malloc((ordre+1) * sizeof(double*) );
+        for( j = ordre+1; j >0; j-- )
+        a[i][ordre+1-j] = calloc(j, sizeof(double));
         }
-        printf("\n");
+    a[0]=lireMlegendre("..\\barre.txt",ordre);
+    a[1]=lireMlegendre("..\\carre.txt",ordre);
+    a[2]=lireMlegendre("..\\cercle.txt",ordre);
+    a[3]=lireMlegendre("..\\dessin2.txt",ordre);
+    a[4]=lireMlegendre("..\\dessin3.txt",ordre);
+    a[5]=lireMlegendre("..\\lady.txt",ordre);
+    a[6]=lireMlegendre("..\\snow2.txt",ordre);
+    a[7]=lireMlegendre("..\\stop.txt",ordre);
+
+    comparaisonImages("stopbis.bmp",ordre,a,1,size);
+//double** image= imageReconstruite(ordre,bmpImg,MatLegendre,coeff);
+    for(i=0;i<size;i++)
+    {
+      freeVM(ordre,a[i]);
+
     }
 
-    //Libération des matrices et de la structure image
-
-    freeVM(ordre,Mcentree);
-    freeVM(ordre,Cpq);
-    freeVM(ordre,coeff);
-    freeVM(ordre,MatLegendre);
-//    freeVM(ordre,image);
-    freeBmpImg(&bmpImg);
 
     return 0;
 }
