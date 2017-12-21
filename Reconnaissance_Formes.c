@@ -285,13 +285,13 @@ double** imageReconstruite(int ordre, BmpImg bmpImg, double** Mlegendre, double*
 }
 
 
-double distanceEuclidienne(int ordre, double** Mlegendre1, double** Mlegendre2)//DEBUGGED
+double distanceEuclidienne(int ordre, double** Mlegendre1, double** Mlegendre2) //DEBUGGED
 {
     int p,q;
     double somme = 0.0;
 
-    for(p=0;p<=ordre;p++){
-        for(q=0;q <= ordre-p;q++){
+    for(p=0; p <= ordre; p++){
+        for(q=0; q <= ordre-p; q++){
 
             somme += (Mlegendre1[p][q] - Mlegendre2[p][q]) * (Mlegendre1[p][q] - Mlegendre2[p][q]);
         }
@@ -300,62 +300,30 @@ double distanceEuclidienne(int ordre, double** Mlegendre1, double** Mlegendre2)/
     return sqrt(somme);
 }
 
-double** lireMlegendre(char* Filename,int ordre)//DEBUGGED
-{
 
-    double** VM;
-    int j,i;
-    VM= malloc((ordre+1) * sizeof(double*) );
-    for( j = ordre+1; j >0; j-- )
-        VM[ordre+1-j] = calloc(j, sizeof(double));
-
-    FILE *fTxt= fopen(Filename,"r");
-    if(fTxt!= NULL)
-     {
-//       while(fscanf(fTxt,"%lf ",&t,&v)==1) // we read 2elements
-      for(i=0;i<=ordre;i++)
-        {
-        for(j=0;j<=ordre-i;j++)
-        {
-           fscanf(fTxt,"%lf ",&VM[i][j]); //printf("%lf ",VM[i][j]);
-        }
-         fscanf(fTxt,"\n"); //printf("\n");
-        }
-     }
-
-     fclose(fTxt);
-     return VM;
-}
-
-void ecrireMlegendre(char* imageName,char* Filename,int ordre,int beta)
+void ecrireMlegendre(char* imageName, char* Filename, int ordre, int beta) //DEBUGGED
 {
     int i,j;
     BmpImg bmpImg = readBmpImage(imageName);
-
     double** Mcentree= MatMCentree(bmpImg,ordre,beta);
-
     double** Cpq= MatCpq(ordre);
-
     double** coeff=  MatCoeffLeg(ordre);
-
     double** MatLegendre= MatMlegendre(ordre,Cpq,coeff,Mcentree);
 
-
     FILE *fTxt= fopen(Filename,"w");
+    
     if(fTxt!= NULL)
-     {
-//       while(fscanf(fTxt,"%lf ",&t,&v)==1) // we read 2elements
-      for(i=0;i<=ordre;i++)
-        {
-        for(j=0;j<=ordre-i;j++)
-        {
-           fprintf(fTxt,"%lf ",MatLegendre[i][j]);
+    {
+        for(i=0; i <= ordre; i++){
+            for(j=0; j <= ordre-i; j++){
+            
+                fprintf(fTxt,"%lf ",MatLegendre[i][j]);
+            }
+        fprintf(fTxt,"\n");
         }
-         fprintf(fTxt,"\n");
-        }
-     }
+    } //if
 
-     fclose(fTxt);
+    fclose(fTxt);
 
     freeVM(ordre,Mcentree);
     freeVM(ordre,Cpq);
@@ -364,36 +332,56 @@ void ecrireMlegendre(char* imageName,char* Filename,int ordre,int beta)
     freeBmpImg(&bmpImg);
 }
 
-void comparaisonImages(char* imageName,int ordre,double***a,int beta,int s)
+double** lireMlegendre(char* Filename, int ordre) //DEBUGGED
 {
-    int i,j,flag=0;
+    double** VM;
+    int j,i;
+    VM= malloc((ordre+1) * sizeof(double*) );
+    for( j = ordre+1; j >0; j-- )
+        VM[ordre+1-j] = calloc(j, sizeof(double));
+
+    FILE *fTxt= fopen(Filename,"r");
+    
+    if(fTxt!= NULL)
+    {
+        for(i=0; i <= ordre; i++){
+            for(j=0; j <= ordre-i; j++){
+                
+                fscanf(fTxt,"%lf ",&VM[i][j]); //printf("%lf ",VM[i][j]);
+            }
+        fscanf(fTxt,"\n"); //printf("\n");
+        }
+    } //if
+
+    fclose(fTxt);
+    return VM;
+}
+
+
+void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s)
+{
+    int i,j,flag = 0;
     double temp;
+    
     BmpImg bmpImg = readBmpImage(imageName);
-
     double** Mcentree= MatMCentree(bmpImg,ordre,beta);
-
     double** Cpq= MatCpq(ordre);
-
     double** coeff=  MatCoeffLeg(ordre);
-
     double** MatLegendre= MatMlegendre(ordre,Cpq,coeff,Mcentree);
-
+    
     double min =  distanceEuclidienne(ordre,MatLegendre, a[0]);
 
-    for(i=1;i<s;i++)
+    for(i=1; i < s; i++){
         
-    {
-        temp = distanceEuclidienne(ordre,MatLegendre, a[i]);
+        temp = distanceEuclidienne(ordre, MatLegendre, a[i]);
     
-        if(temp<min)
+        if(temp < min)
         {
-            
-           min=temp;
-           flag=i;
+           min = temp;
+           flag = i;
         }
-
     }
-    printf("\n%d\n",flag);
-
-
+    printf("\n%d\n",flag); //numéro de l'image de la base de données la plus proche de l'image rentrée
 }
+
+
