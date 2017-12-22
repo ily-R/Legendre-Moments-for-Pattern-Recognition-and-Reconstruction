@@ -46,7 +46,7 @@ int main()
     a[7] = lireMlegendre("..\\stop.txt",ordre);
 
     //Rentrer le nom de l'image à comparer, et true si vous souhaitez créer le fichier .txt de l'image reconstruite
-    comparaisonImages("lady2.bmp", ordre, a, 2, size, true);
+    comparaisonImages("lady2", ordre, a, 2, size, true);
 
     //Libération de la matrice 3D "base de données"
     for(i = 0; i < size; i++) {
