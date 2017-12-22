@@ -12,7 +12,7 @@ void freeVM(int ordre, double** VM) //DEBUGGED
         free( VM );
     }
     VM = NULL;
-    printf("Matrice detruite.\n");
+    printf("\nMatrice detruite.");
 }
 
 
@@ -253,9 +253,9 @@ double pixelReconstruit(int ordre, float x, float y, double** Mlegendre, double*
     double pixel = 0.0;
 
     for (p=0; p <= ordre; p++){
-        for (q = 0; q <=p; q++){
+        for (q = 0; q <=ordre-p; q++){
 
-            pixel += (Mlegendre[p-q][q])*polyLeg(x,p-q,coeff)*polyLeg(y,q,coeff);
+            pixel += (Mlegendre[p][q])*polyLeg(x,p,coeff)*polyLeg(y,q,coeff);
         }
     }
     return pixel;
@@ -296,7 +296,7 @@ double distanceEuclidienne(int ordre, double** Mlegendre1, double** Mlegendre2) 
             somme += (Mlegendre1[p][q] - Mlegendre2[p][q]) * (Mlegendre1[p][q] - Mlegendre2[p][q]);
         }
     }
-    
+
     return sqrt(somme);
 }
 
@@ -311,12 +311,12 @@ void ecrireMlegendre(char* imageName, char* Filename, int ordre, int beta) //DEB
     double** MatLegendre= MatMlegendre(ordre,Cpq,coeff,Mcentree);
 
     FILE *fTxt= fopen(Filename,"w");
-    
+
     if(fTxt!= NULL)
     {
         for(i=0; i <= ordre; i++){
             for(j=0; j <= ordre-i; j++){
-            
+
                 fprintf(fTxt,"%lf ",MatLegendre[i][j]);
             }
         fprintf(fTxt,"\n");
@@ -341,12 +341,12 @@ double** lireMlegendre(char* Filename, int ordre) //DEBUGGED
         VM[ordre+1-j] = calloc(j, sizeof(double));
 
     FILE *fTxt= fopen(Filename,"r");
-    
+
     if(fTxt!= NULL)
     {
         for(i=0; i <= ordre; i++){
             for(j=0; j <= ordre-i; j++){
-                
+
                 fscanf(fTxt,"%lf ",&VM[i][j]); //printf("%lf ",VM[i][j]);
             }
         fscanf(fTxt,"\n"); //printf("\n");
@@ -358,30 +358,92 @@ double** lireMlegendre(char* Filename, int ordre) //DEBUGGED
 }
 
 
-void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s)
+void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s, int reconstruit)
 {
     int i,j,flag = 0;
     double temp;
-    
-    BmpImg bmpImg = readBmpImage(imageName);
+    char str[20]="";
+    strcpy(str,imageName);
+
+    BmpImg bmpImg = readBmpImage(strcat(str,".bmp"));
     double** Mcentree= MatMCentree(bmpImg,ordre,beta);
     double** Cpq= MatCpq(ordre);
     double** coeff=  MatCoeffLeg(ordre);
     double** MatLegendre= MatMlegendre(ordre,Cpq,coeff,Mcentree);
-    
+
     double min =  distanceEuclidienne(ordre,MatLegendre, a[0]);
 
     for(i=1; i < s; i++){
-        
+
         temp = distanceEuclidienne(ordre, MatLegendre, a[i]);
-    
+
         if(temp < min)
         {
            min = temp;
            flag = i;
         }
     }
-    printf("\n%d\n",flag); //numéro de l'image de la base de données la plus proche de l'image rentrée
+    //numéro de l'image de la base de données la plus proche de l'image rentrée
+    imageChoisie(flag);
+
+    if(reconstruit==1)
+    {
+        printf("\nLa reconstruction de l'image. Ca va prendre un peu de temps...");
+        double** image= imageReconstruite(ordre,bmpImg,MatLegendre,coeff);
+        FILE *fp= fopen(strcat(str,".txt"),"w");
+
+        if(fp!= NULL)
+           {
+            for(i=0; i < bmpImg.dimX; i++)
+            {
+                for(j=0; j <bmpImg.dimY; j++)
+                {
+
+                    fprintf(fp,"%lf ",image[i][j]);
+                }
+                fprintf(fp,"\n");
+            }
+    } //if
+
+    fclose(fp);
+    freeVM(ordre,image);
+    }
+
+
+    freeVM(ordre,Mcentree);
+    freeVM(ordre,Cpq);
+    freeVM(ordre,coeff);
+    freeVM(ordre,MatLegendre);
+    freeBmpImg(&bmpImg);
+
 }
-
-
+void imageChoisie(int flag)
+{
+      switch (flag)
+      {
+    case 0:
+        printf("\nL'image la plus proche est l'image \"barre.bmp\"");
+        break;
+    case 1:
+        printf("\nL'image la plus proche est l'image \"carre.bmp\"");
+        break;
+    case 2:
+        printf("\nL'image la plus proche est l'image \"cercle.bmp\"");
+        break;
+    case 3:
+        printf("\nL'image la plus proche est l'image \"dessin2.bmp\"");
+        break;
+    case 4:
+        printf("\nL'image la plus proche est l'image \"dessin3.bmp\"");
+        break;
+    case 5:
+        printf("\nL'image la plus proche est l'image \"lady.bmp\"");
+        break;
+    case 6:
+        printf("\nL'image la plus proche est l'image \"snow2.bmp\"");
+        break;
+    case 7:
+        printf("\nL'image la plus proche est l'image \"stop.bmp\"");
+        break;
+      }
+}
