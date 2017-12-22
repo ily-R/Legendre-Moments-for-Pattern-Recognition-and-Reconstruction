@@ -3,14 +3,16 @@
 
 #include "myBmpGris.h"
 #include "Reconnaissance_Formes.h"
+
 #define ordre 25
-#define size 8 //la taille de notre base de données pour un ordre choisi
+#define size 8 //la taille de notre base de données
 #define true 1
 #define false 0
+
 int main()
 {
 
-// Si vous voulez recrire la base de données pour un autre ordre decommentez ce qui est en dessous.
+// Si vous voulez réécrire la base de données pour un autre ordre décommentez le bloc ci-dessous :
 
 //ecrireMlegendre("..\\lady.bmp","..\\lady.txt",ordre,2);
 //ecrireMlegendre("..\\barre.bmp","..\\barre.txt",ordre,2);
@@ -21,33 +23,35 @@ int main()
 //ecrireMlegendre("..\\stop.bmp","..\\stop.txt",ordre,1);
 //ecrireMlegendre("..\\cercle.bmp","..\\cercle.txt",ordre,1);
 
-
+//Une fois les fichiers .txt des moments des images constituants la base de donnée créés :
+    
+    //Création de la matrice 3D "base de données"
     int i,j;
     double *** a= (double ***)malloc(size*sizeof(double**));
 
-        for (i = 0; i< size; i++) {
-
-        a[i]= malloc((ordre+1) * sizeof(double*) );
-        for( j = ordre+1; j >0; j-- )
-        a[i][ordre+1-j] = calloc(j, sizeof(double));
+        for (i = 0; i < size; i++) {
+            a[i]= malloc((ordre+1) * sizeof(double*) );
+            for( j = ordre+1; j > 0; j-- )
+                a[i][ordre+1 - j] = calloc(j, sizeof(double));
         }
-    a[0]=lireMlegendre("..\\barre.txt",ordre);
-    a[1]=lireMlegendre("..\\carre.txt",ordre);
-    a[2]=lireMlegendre("..\\cercle.txt",ordre);
-    a[3]=lireMlegendre("..\\dessin2.txt",ordre);
-    a[4]=lireMlegendre("..\\dessin3.txt",ordre);
-    a[5]=lireMlegendre("..\\lady.txt",ordre);
-    a[6]=lireMlegendre("..\\snow2.txt",ordre);
-    a[7]=lireMlegendre("..\\stop.txt",ordre);
+    
+    //Remplissage
+    a[0] = lireMlegendre("..\\barre.txt",ordre);
+    a[1] = lireMlegendre("..\\carre.txt",ordre);
+    a[2] = lireMlegendre("..\\cercle.txt",ordre);
+    a[3] = lireMlegendre("..\\dessin2.txt",ordre);
+    a[4] = lireMlegendre("..\\dessin3.txt",ordre);
+    a[5] = lireMlegendre("..\\lady.txt",ordre);
+    a[6] = lireMlegendre("..\\snow2.txt",ordre);
+    a[7] = lireMlegendre("..\\stop.txt",ordre);
 
-    comparaisonImages("lady2",ordre,a,2,size,true);
+    //Rentrer le nom de l'image à comparer, et true si vous souhaitez créer le fichier .txt de l'image reconstruite
+    comparaisonImages("lady2.bmp", ordre, a, 2, size, true);
 
-    for(i=0;i<size;i++)
-    {
+    //Libération de la matrice 3D "base de données"
+    for(i = 0; i < size; i++) {
       freeVM(ordre,a[i]);
-
     }
-
 
     return 0;
 }
