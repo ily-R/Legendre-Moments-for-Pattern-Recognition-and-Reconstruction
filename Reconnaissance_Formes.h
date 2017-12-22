@@ -172,8 +172,13 @@ double** lireMlegendre(char* Filename, int ordre); //DEBUGGED
 * @param ordre : ordre défini au début du main (tel que p + q ≤ ordre)
 * @param beta : coefficient de normalisation
 * @param s : nombre d'images contenues dans la base de donnée
+* @param reconstruit : si égal à 1, crée un fichier .txt contenant l'image reconstruite. Sinon ne fait rien.
 */
-void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s); 
+void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s, int reconstruit);
+/** Fonction permettant d'afficher le nom de l'image la plus proche
+* @param flag: numéro de l'image la plus proche sur la base de données
+*/
+void imageChoisie(int flag);
 
 
 #endif // RECONNAISSANCE_FORMES_H_INCLUDED
