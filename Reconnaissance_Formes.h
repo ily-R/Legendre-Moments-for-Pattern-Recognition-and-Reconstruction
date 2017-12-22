@@ -166,16 +166,18 @@ double** lireMlegendre(char* Filename, int ordre); //DEBUGGED
 
 //2.C Comparaisons des images
 
-/** Fonction permettant de comparer des images entre elles avec la distance Euclidienne
+/** Fonction permettant de comparer des images entre elles avec la distance Euclidienne ainsi que de créer, si on le souhaite,
+un fichier .txt de l'image reconstruite
 * @param imageName : nom du fichier image à comparer à la base de donnée
 * @param ordre : ordre défini au début du main (tel que p + q ≤ ordre)
 * @param a : matrice 3D des matrices 2D de moments en fonction du numéro de l'image de la base de donnée (1D)
 * @param ordre : ordre défini au début du main (tel que p + q ≤ ordre)
 * @param beta : coefficient de normalisation
 * @param s : nombre d'images contenues dans la base de donnée
-* @param reconstruit : si égal à 1, crée un fichier .txt contenant l'image reconstruite. Sinon ne fait rien.
+* @param reconstruit : si égal à 1, crée un fichier .txt contenant l'image reconstruite, sinon ne fait rien.
 */
 void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s, int reconstruit);
+
 /** Fonction permettant d'afficher le nom de l'image la plus proche
 * @param flag: numéro de l'image la plus proche sur la base de données
 */
