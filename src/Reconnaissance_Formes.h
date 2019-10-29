@@ -161,13 +161,14 @@ double** lireMlegendre(char* Filename, int ordre); //DEBUGGED
 
 /** compare a given image to the database using euclidean distance
 * @param imageName : image's full path
+* @param reconstructName : reconstructed image's full path
 * @param order : order defined in main.c (such that p + q ≤ order)
 * @param a : 3D tensor of containing the Legendre moments of all the images in the database
 * @param beta : normalization coeff
 * @param s :number of images in the database
 * @param reconstruit :if 1 create a .txt that contains the reconstructed image
 */
-void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s, int reconstruit);
+void comparaisonImages(char* imageName, char* reconstructName, int ordre, double*** a, int beta, int s, int reconstruit);
 
 /** display the name of the closest image from the database to the input image
 * @param flag: index of the closest image from the database

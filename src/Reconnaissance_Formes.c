@@ -299,7 +299,7 @@ void ecrireMlegendre(char* imageName, char* Filename, int ordre, int beta) //DEB
     if(fTxt!= NULL)
     {
         for(i=0; i <= ordre; i++){
-            for(j=0; j <= ordre-i; j++){j
+            for(j=0; j <= ordre-i; j++){
 
                 fprintf(fTxt,"%lf ",MatLegendre[i][j]);
             }
@@ -342,14 +342,12 @@ double** lireMlegendre(char* Filename, int ordre)
 }
 
 
-void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s, int reconstruit)
+void comparaisonImages(char* imageName, char* reconstructName,  int ordre, double*** a, int beta, int s, int reconstruit)
 {
     int i,j,flag = 0;
     double temp;
-    char str[20]="";
-    strcpy(str,imageName);
 
-    BmpImg bmpImg = readBmpImage(strcat(str,".bmp"));
+    BmpImg bmpImg = readBmpImage(imageName);
     double** Mcentree= MatMCentree(bmpImg,ordre,beta);
     double** Cpq= MatCpq(ordre);
     double** coeff=  MatCoeffLeg(ordre);
@@ -371,9 +369,10 @@ void comparaisonImages(char* imageName, int ordre, double*** a, int beta, int s,
 
     if(reconstruit==1)
     {
-        printf("\nLa reconstruction de l'image. Ca va prendre un peu de temps...");
+        printf("\nreconstructing the image, it will take some time...");
         double** image= imageReconstruite(ordre,bmpImg,MatLegendre,coeff);
-        FILE *fp= fopen(strcat(str,".txt"),"w");
+ 
+        FILE *fp= fopen(reconstructName,"w");
 
         if(fp!= NULL)
            {
