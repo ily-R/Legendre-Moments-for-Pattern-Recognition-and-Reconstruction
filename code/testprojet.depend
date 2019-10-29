@@ -1,0 +1,68 @@
+# depslib dependency file v1.0
+1511423048 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\testprojet\mybmpgris.c
+	"myBmpGris.h"
+
+1511423050 c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\testprojet\mybmpgris.h
+	<stdlib.h>
+	<stdio.h>
+
+1513883711 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\testprojet\main.c
+	<stdio.h>
+	<stdlib.h>
+	"myBmpGris.h"
+	"Reconnaissance_Formes.h"
+
+1513883337 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\testprojet\reconnaissance_formes.c
+	"Reconnaissance_Formes.h"
+
+1513883249 c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\testprojet\reconnaissance_formes.h
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	"myBmpGris.h"
+
+1513883711 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\base de donnees\testprojet\main.c
+	<stdio.h>
+	<stdlib.h>
+	"myBmpGris.h"
+	"Reconnaissance_Formes.h"
+
+1511423050 c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\base de donnees\testprojet\mybmpgris.h
+	<stdlib.h>
+	<stdio.h>
+
+1513883249 c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\base de donnees\testprojet\reconnaissance_formes.h
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	"myBmpGris.h"
+
+1511423048 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\base de donnees\testprojet\mybmpgris.c
+	"myBmpGris.h"
+
+1513883337 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\base de donnees\testprojet\reconnaissance_formes.c
+	"Reconnaissance_Formes.h"
+
+1511423048 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\projet reconnaissance_forme\code\mybmpgris.c
+	"myBmpGris.h"
+
+1511423050 c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\projet reconnaissance_forme\code\mybmpgris.h
+	<stdlib.h>
+	<stdio.h>
+
+1513940436 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\projet reconnaissance_forme\code\reconnaissance_formes.c
+	"Reconnaissance_Formes.h"
+
+1513939485 c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\projet reconnaissance_forme\code\reconnaissance_formes.h
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<string.h>
+	"myBmpGris.h"
+
+1513938206 source:c:\users\ilyas\desktop\cours upmc\programmation et méthodes numériques\project c\projet reconnaissance_forme\code\main.c
+	<stdio.h>
+	<stdlib.h>
+	"myBmpGris.h"
+	"Reconnaissance_Formes.h"
+
