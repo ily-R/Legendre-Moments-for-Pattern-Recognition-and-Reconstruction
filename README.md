@@ -1,5 +1,9 @@
 # Legendre Moments for Pattern Recognition and Reconstruction
 
+<p align="center">
+  <img src="https://github.com/ily-R/Legendre-Moments-for-Pattern-Recognition-and-Reconstruction/blob/master/readMe_data/ress.JPG?raw=true" alt="capture reconstruction"/>
+</p>
+
 Legendre moments are an image component used to limit the representation complexity by invoking Lengendre polynomials. Here we use this components to calculate images' similarities, and recognize the closest pattern for a test image from our database.
 
 * The program is very memory efficient and fast, using C programming language, memory allocation and pointers destruction. 
