@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "src\\myBmpGris.h"
-#include "src\\Reconnaissance_Formes.h"
+#include "myBmpGris.h"
+#include "Reconnaissance_Formes.h"
 #define ordre 25
 #define size 8 //number of images in the database
 #define true 1
@@ -42,7 +42,7 @@ int main()
     a[6]=lireMlegendre("..\\LegendreMoments\\snow2.txt",ordre);
     a[7]=lireMlegendre("..\\LegendreMoments\\stop.txt",ordre);
 
-    comparaisonImages("lady2",ordre,a,2,size,true);
+    comparaisonImages("..\\testImages\\lady2.bmp","..\\result\\lady2.txt",ordre,a,2,size,true);
 
     for(i=0;i<size;i++)
     {

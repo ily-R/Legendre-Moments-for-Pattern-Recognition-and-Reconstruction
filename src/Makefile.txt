@@ -1,0 +1,19 @@
+CC = gcc
+CFLAGS= Wall -g
+
+all: myapp
+
+myapp: main.o myBmpGris.o Reconnaissance_Formes.o 
+	$(CC) $(CFLAGS) main.o myBmpGris.o Reconnaissance_Formes.o
+
+main.o: main.c
+	$(CC) $(CFLAGS) -c main.c 
+
+myBmpGris.o: myBmpGris.c
+	$(CC) $(CFLAGS) -c myBmpGris.c 
+	
+Reconnaissance_Formes.o: Reconnaissance_Formes.c
+	$(CC) $(CFLAGS) -c Reconnaissance_Formes.c
+	
+clean:
+	rm a.out *.o myapp
