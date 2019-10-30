@@ -43,5 +43,5 @@ If you get some problems using make, just run the following command from the *sr
 
 After building the the source files and running the executable file, you should see this:
 <p align="center">
-  <img src="readMe_data/Capture1.jpg"/>
+  <img src="https://github.com/ily-R/Legendre-Moments-for-Pattern-Recognition-and-Reconstruction/readMe_data/Capture1.jpg?raw=true" alt="capture reconstruction"/>
 </p>
