@@ -13,7 +13,7 @@ Legendre moments are an image component used to limit the representation complex
 
 ## Prerequisites:
 
-The only prerequesite need is a C compiler, go ahead and use your favorite (gcc, clang...). I will use ``gcc`` and ``make``.
+The only prerequesite needed is a C compiler, go ahead and use your favorite (gcc, clang...). I will use ``gcc`` and ``make``.
 
 #### Linux:
 
